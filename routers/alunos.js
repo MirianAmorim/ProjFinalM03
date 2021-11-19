@@ -7,9 +7,9 @@ router.get('/', (req,res) => {
 });
 
 router.get('/listall', async (req,res) => {
-    await pais.find({}).then((paises) => {
-        console.log(paises);
-        res.status(200).json(paises);
+    await aluno.find({}).then((alunos) => {
+        console.log(alunos);
+        res.status(200).json(alunos);
     }).catch((err) => {
         res.status(404).json({message:"Nada foi encontrado"});
         console.error(err);
@@ -18,12 +18,12 @@ router.get('/listall', async (req,res) => {
 
 router.get('/listname/:nome', async (req,res) => {
     const nome = req.params.nome;
-    await pais.find({ nome:nome }).then((pais) => { 
-        console.log(pais);
-        if(pais == null){ 
+    await aluno.find({ nome:nome }).then((aluno) => { 
+        console.log(aluno);
+        if(aluno == null){ 
             res.status(404).json({message: "nao foi encontrado"});
         }else{
-            res.status(200).json(pais);
+            res.status(200).json(aluno);
         }
     }).catch((err) => {
         res.status(404).json({message:"Nada foi encontrado"});
@@ -33,24 +33,27 @@ router.get('/listname/:nome', async (req,res) => {
 
 router.post('/add', async (req,res) => { 
 
-    //validando as entradas do usuario
     if(!req.body.nome){
         res.status(400).json({message: "esta faltando nome"});
         return;
-    }else if(!req.body.populacao){
-        res.status(400).json({message: "esta faltando populacao"});
+    }else if(!req.body.idade){
+        res.status(400).json({message: "esta faltando idade"});
         return;
     }
-    else if(!req.body.linguaMae){
-        res.status(400).json({message: "esta faltando linguaMae"});
+    else if(!req.body.turma){
+        res.status(400).json({message: "esta faltando turma"});
         return; 
     }
-    else if(!req.body.pib){
-        res.status(400).json({message: "esta faltando pib"});
+    else if(!req.body.niver){
+        res.status(400).json({message: "esta faltando niver"});
+        return; 
+    }
+    else if(!req.body.responsavel){
+        res.status(400).json({message: "esta faltando responsavel"});
         return; 
     }
 
-    await pais.create(req.body).then(() => {
+    await aluno.create(req.body).then(() => {
         res.status(200).json({message: "cadastrado com sucesso"});
     }).catch((err) => {
         res.status(400).json({message: "algo esta errado"});
@@ -63,20 +66,24 @@ router.put('/update/:id', async (req,res) => {
     if(!req.body.nome){
         res.status(400).json({message: "esta faltando nome"});
         return;
-    }else if(!req.body.populacao){
-        res.status(400).json({message: "esta faltando populacao"});
+    }else if(!req.body.idade){
+        res.status(400).json({message: "esta faltando idade"});
         return;
     }
-    else if(!req.body.linguaMae){
-        res.status(400).json({message: "esta faltando linguaMae"});
+    else if(!req.body.turma){
+        res.status(400).json({message: "esta faltando turma"});
         return; 
     }
-    else if(!req.body.pib){
-        res.status(400).json({message: "esta faltando pib"});
+    else if(!req.body.niver){
+        res.status(400).json({message: "esta faltando niver"});
+        return; 
+    }
+    else if(!req.body.responsavel){
+        res.status(400).json({message: "esta faltando responsavel"});
         return; 
     }
 
-    await pais.updateOne({ _id:id},req.body).then(() => { 
+    await aluno.updateOne({ _id:id},req.body).then(() => { 
         res.status(200).json({message: "Atualizado com sucesso"});
     }).catch((err) => {
         console.error(err);
@@ -86,7 +93,7 @@ router.put('/update/:id', async (req,res) => {
 
 router.delete('/delete/:id', async (req,res) => {
     if( req.params.id.length == 24){ 
-        await pais.deleteOne({_id:req.params.id}).then(() => { 
+        await aluno.deleteOne({_id:req.params.id}).then(() => { 
             res.status(200).json({message: "Deletado com sucesso"});
         }).catch((err) => {
             console.error(err);
