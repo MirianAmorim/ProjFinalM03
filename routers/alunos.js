@@ -1,107 +1,19 @@
 const express = require("express"); 
 const router = express.Router(); 
-const aluno = require("./../model/alunos"); 
+const alunosController = require("./../controller/alunos.controller"); 
 
 router.get('/', (req,res) => {
     res.status(200).json({message:"rota alunos ok"});
 });
 
-router.get('/listall', async (req,res) => {
-    await aluno.find({}).then((alunos) => {
-        console.log(alunos);
-        res.status(200).json(alunos);
-    }).catch((err) => {
-        res.status(404).json({message:"Nada foi encontrado"});
-        console.error(err);
-    });
-});
+router.get("/listall", alunosController.getAll);
 
-router.get('/listname/:nome', async (req,res) => {
-    const nome = req.params.nome;
-    await aluno.find({ nome:nome }).then((aluno) => { 
-        console.log(aluno);
-        if(aluno == null){ 
-            res.status(404).json({message: "nao foi encontrado"});
-        }else{
-            res.status(200).json(aluno);
-        }
-    }).catch((err) => {
-        res.status(404).json({message:"Nada foi encontrado"});
-        console.error(err);
-    });
-});
+router.get("/listid/:id", alunosController.getSingle);
 
-router.post('/add', async (req,res) => { 
+router.post("/add", alunosController.postCreate);
 
-    if(!req.body.nome){
-        res.status(400).json({message: "esta faltando nome"});
-        return;
-    }else if(!req.body.idade){
-        res.status(400).json({message: "esta faltando idade"});
-        return;
-    }
-    else if(!req.body.turma){
-        res.status(400).json({message: "esta faltando turma"});
-        return; 
-    }
-    else if(!req.body.niver){
-        res.status(400).json({message: "esta faltando niver"});
-        return; 
-    }
-    else if(!req.body.responsavel){
-        res.status(400).json({message: "esta faltando responsavel"});
-        return; 
-    }
+router.put("/update/:id", alunosController.putUpdate);
 
-    await aluno.create(req.body).then(() => {
-        res.status(200).json({message: "cadastrado com sucesso"});
-    }).catch((err) => {
-        res.status(400).json({message: "algo esta errado"});
-        console.error(err);
-    })
-});
-
-router.put('/update/:id', async (req,res) => {
-    const id = req.params.id;
-    if(!req.body.nome){
-        res.status(400).json({message: "esta faltando nome"});
-        return;
-    }else if(!req.body.idade){
-        res.status(400).json({message: "esta faltando idade"});
-        return;
-    }
-    else if(!req.body.turma){
-        res.status(400).json({message: "esta faltando turma"});
-        return; 
-    }
-    else if(!req.body.niver){
-        res.status(400).json({message: "esta faltando niver"});
-        return; 
-    }
-    else if(!req.body.responsavel){
-        res.status(400).json({message: "esta faltando responsavel"});
-        return; 
-    }
-
-    await aluno.updateOne({ _id:id},req.body).then(() => { 
-        res.status(200).json({message: "Atualizado com sucesso"});
-    }).catch((err) => {
-        console.error(err);
-        res.status(400).json({message: "algo esta errado"});
-    });
-});
-
-router.delete('/delete/:id', async (req,res) => {
-    if( req.params.id.length == 24){ 
-        await aluno.deleteOne({_id:req.params.id}).then(() => { 
-            res.status(200).json({message: "Deletado com sucesso"});
-        }).catch((err) => {
-            console.error(err);
-            res.status(400).json({message: "algo esta errado"});
-        });
-    }else{
-        res.status(400).json({message: "id precisa ter 24 caracteres"});
-    }
-});
+router.delete("/delete/:id", alunosController.delDelete);
 
 module.exports = router;

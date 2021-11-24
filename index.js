@@ -3,6 +3,8 @@ const app = express();
 require('dotenv').config(); 
 app.use(express.json());  
 
+const port = process.env.PORT || 3000;
+
 const conn = require("./model/conn/index"); 
 
 conn();
@@ -12,20 +14,20 @@ app.get('/', (req,res) => {
 });
 
 const alunoRouters = require("./routers/alunos");
-app.use('/aluno',alunosRouters);
+app.use('/aluno',alunoRouters);
 
 const professorRouters = require("./routers/professores");
-app.use('/professor',professoresRouters);
+app.use('/professor',professorRouters);
 
 const responsavelRouters = require("./routers/responsaveis");
-app.use('/responsavel',responsaveisRouters);
+app.use('/responsavel',responsavelRouters);
 
 const livroRouters = require("./routers/livros");
-app.use('/livro',livrosRouters);
+app.use('/livro',livroRouters);
 
 const disciplinaRouters = require("./routers/disciplinas");
-app.use('/disciplina',disciplinasRouters);
+app.use('/disciplina',disciplinaRouters);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor rodando em: http://localhost:${process.env.PORT}`);
+app.listen(port, () => {
+    console.log(`Servidor rodando em: http://localhost:${port}`);
 });
