@@ -12,7 +12,7 @@ exports.getAll = async (req,res) => {
 
 exports.getSingle = async (req,res) => {
     const nome = req.params.id;
-    await aluno.find({ _id:nome }).then((aluno) => { 
+    await aluno.findOne({ _id:nome }).then((aluno) => { 
         console.log(aluno);
         if(aluno == null){ 
             res.status(404).json({message: "nao foi encontrado"});
@@ -38,14 +38,6 @@ exports.postCreate = async (req,res) => {
         res.status(400).json({message: "esta faltando turma"});
         return; 
     }
-    else if(!req.body.niver){
-        res.status(400).json({message: "esta faltando niver"});
-        return; 
-    }
-    else if(!req.body.responsavel){
-        res.status(400).json({message: "esta faltando responsavel"});
-        return; 
-    }
 
     await aluno.create(req.body).then(() => {
         res.status(200).json({message: "cadastrado com sucesso"});
@@ -66,14 +58,6 @@ exports.putUpdate = async (req,res) => {
     }
     else if(!req.body.turma){
         res.status(400).json({message: "esta faltando turma"});
-        return; 
-    }
-    else if(!req.body.niver){
-        res.status(400).json({message: "esta faltando niver"});
-        return; 
-    }
-    else if(!req.body.responsavel){
-        res.status(400).json({message: "esta faltando responsavel"});
         return; 
     }
 
