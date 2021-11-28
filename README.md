@@ -7,7 +7,7 @@ Projeto final do módulo 03 utilizando o padrão MVC e integração entre back e
 
 API criada com node, express e mongoDB.
 
-contem 5 rotas com as seguintes propriedades:
+contém 5 rotas com as seguintes propriedades:
 
 Alunos:
 
@@ -42,8 +42,8 @@ Responsaveis:
     nome: { type: String, required: true},
     aluno: { type: String, required: true}.
 
-
 # Cada rota contem as opções criar, listar todos, listar por id, editar por id e deletar por id.
+As rotas criar e editar aguardam o preenchimento completo de cada um dos campos retornando mensagens de erro, caso algum campo deixe de ser preenchido.
 
 Tabela das rotas:
 
